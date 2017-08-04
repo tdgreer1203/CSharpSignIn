@@ -1,0 +1,30 @@
+﻿@using System.Web.Configuration
+@model IEnumerable<TRiOSignIn.Models.Building>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Buildings</h2>
+
+<br />
+<div class="pre-scrollable" id="pageTable">
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Map Number</th>
+        </tr>
+        @foreach (var building in Model)
+        {
+            <tr>
+                <td>@building.Id</td>
+                <td>@Html.ActionLink(building.Name, "Details", "Buildings", new { id = building.Id }, null)</td>
+                <td>@building.MapNumber</td>
+            </tr>
+        }
+    </table>
+</div>
+<br/>
+    <a href="@Url.Action("New", "Buildings")" class="btn btn-info" id="detailBtn">ADD</a>
+

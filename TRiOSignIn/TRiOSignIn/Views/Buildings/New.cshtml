@@ -1,0 +1,25 @@
+﻿@model TRiOSignIn.Models.Building
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Building</h2>
+
+<br />
+
+@using (Html.BeginForm("Save", "Buildings"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MapNumber)
+        @Html.TextBoxFor(m => m.MapNumber, new { @class = "form-control" })
+    </div>
+    @Html.HiddenFor(m => m.Id)
+    <button type="submit" class="btn btn-info" id="detailBtn">SAVE</button>
+    <a href="@Url.Action("Index", "Buildings")" class="btn btn-danger" id="detailBtn">CANCEL</a>
+}

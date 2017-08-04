@@ -1,0 +1,19 @@
+﻿@model TRiOSignIn.Models.Kiosk
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Name</h2>
+
+<br />
+
+<div class="list-group">
+    <div class="list-group-item"><b>Name: </b>@Model.Name</div>
+    <div class="list-group-item"><b>Lab: </b>@Model.Lab.Name</div>
+    <div class="list-group-item"><b>Building: </b>@Model.Lab.Building.Name</div>
+    <div class="list-group-item"><b>Room: </b>@Model.Lab.Room</div>
+</div>
+
+<a href="@Url.Action("Edit", "Kiosks", new { id = Model.Lab.Id })" class="btn btn-warning" id="detailBtn">EDIT</a>
+<a href="@Url.Action("Index", "Kiosks")" class="btn btn-danger" id="detailBtn">CANCEL</a>

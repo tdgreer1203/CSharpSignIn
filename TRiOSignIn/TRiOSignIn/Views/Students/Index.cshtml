@@ -1,0 +1,35 @@
+﻿@using System.Web.Configuration
+@model IEnumerable<TRiOSignIn.Models.Student>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Students</h2>
+
+<br/>
+<div class="pre-scrollable" id="pageTable">
+    <table class="table table-striped">
+        <tr>
+            <td>Id</td>
+            <td>First Name</td>
+            <td>Middle Initial</td>
+            <td>Last Name</td>
+            <td>Email</td>
+            <td>Phone</td>
+        </tr>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(student.StudentId, "Details", "Students", new { id = student.Id }, null)</td>
+                <td>@student.FirstName</td>
+                <td>@student.MiddleInitial</td>
+                <td>@student.LastName</td>
+                <td><a href="mailto:@student.Email">@student.Email</a></td>
+                <td>@student.Phone</td>
+            </tr>
+        }
+    </table>
+</div>
+<br/>
+    <a href="@Url.Action("New", "Students")" class="btn btn-info" id="detailBtn">ADD</a>

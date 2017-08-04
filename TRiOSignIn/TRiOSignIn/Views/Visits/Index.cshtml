@@ -1,0 +1,62 @@
+﻿@using System.Web.Configuration
+@model IEnumerable<TRiOSignIn.Models.Visit>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var className = "";
+}
+
+<h2>Visits</h2>
+
+<br />
+<div class="pre-scrollable" id="pageTable">
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Student</th>
+            <th>Date</th>
+            <th>Lab</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Total Time</th>
+        </tr>
+        @foreach (var visit in Model)
+        {
+            if (visit.isActive == true)
+            {
+                className = "success";
+            }
+            else if (visit.ForceClosed == true)
+            {
+                className = "danger";
+            }
+            else
+            {
+                className = "";
+            }
+
+            <tr class="@className">
+                <td>@visit.Id</td>
+                @if (visit.Student.MiddleInitial != null)
+                {
+                    <td>@Html.ActionLink(@visit.Student.FirstName + " " + @visit.Student.MiddleInitial + " "  + @visit.Student.LastName, "Details", "Students", new { id = @visit.Student.Id }, null)</td>
+                }
+                else
+                {
+                    <td>@Html.ActionLink(@visit.Student.FirstName + " " + @visit.Student.LastName, "Details", "Students", new { id = @visit.Student.Id }, null)</td>
+                }
+                <td>@visit.StartTime.Date.ToShortDateString()</td>
+                <td>@Html.ActionLink(@visit.Lab.Name, "Details", "Labs", new { id = @visit.LabId }, null)</td>
+            <td>@visit.StartTime.ToShortTimeString()</td>
+            <td>@visit.EndTime.ToShortTimeString()</td>
+            <td>@visit.EndTime.Subtract(visit.StartTime).TotalHours.ToString("N2")</td>
+        </tr>
+        }
+    </table>
+</div>
+    <br />
+
+    <a href="@Url.Action("Index", "Home")" class="btn btn-info" id="detailBtn">HOME</a>
