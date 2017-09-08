@@ -1,0 +1,20 @@
+﻿@model TRiOSignIn.Models.Department
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Department</h2>
+
+<br />
+
+@using (Html.BeginForm("Save", "Departments"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+    @Html.HiddenFor(m => m.Id)
+    <button type="submit" class="btn btn-info" id="detailBtn">Save</button>
+    <a href="@Url.Action("Index", "Departments")" class="btn btn-danger" id="detailBtn">CANCEL</a>
+}

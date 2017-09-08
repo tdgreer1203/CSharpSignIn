@@ -1,0 +1,77 @@
+﻿@using TRiOSignIn.Models
+@model TRiOSignIn.ViewModels.LabDetailViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Lab.Name</h2>
+
+<br/>
+
+<div class="list-group">
+    <div class="list-group-item"><b>Name: </b>@Model.Lab.Name</div>
+    <div class="list-group-item"><b>Room Number: </b>@Model.Lab.Room</div>
+    <div class="list-group-item"><b>Building: </b>@Model.Lab.Building.Name</div>
+    <div class="list-group-item"><b>Department: </b>@Model.Lab.Department.Name</div>
+</div>
+
+<a href="@Url.Action("Edit", "Labs", new { id = Model.Lab.Id })" class="btn btn-warning" id="detailBtn">EDIT</a>
+<a href="@Url.Action("Index", "Labs")" class="btn btn-danger" id="detailBtn">CANCEL</a>
+
+<br />
+<br />
+
+@if (Model.Visits.Count > 0)
+{
+    var className = "";
+    
+    <h3>Visits</h3>
+
+    <div class="pre-scrollable">
+        <table class="table table-striped">
+            <tr>
+                <td>Student</td>
+                <td>Date</td>
+                <td>Start Time</td>
+                <td>End Time</td>
+                <td>Total Time</td>
+            </tr>
+            @foreach (var visit in @Model.Visits)
+            {
+                if (visit.isActive == true)
+                {
+                    className = "success";
+                }
+                else if (visit.ForceClosed == true)
+                {
+                    className = "danger";
+                }
+                else
+                {
+                    className = "";
+                }
+
+                <tr class="@className">
+                    @if (visit.Student.MiddleInitial != null)
+                    {
+                        <td>@Html.ActionLink(@visit.Student.FirstName + " " + @visit.Student.MiddleInitial + " "  + @visit.Student.LastName, "Details", "Students", new { id = @visit.Student.Id }, null)</td>
+                    }
+                    else
+                    {
+                        <td>@Html.ActionLink(@visit.Student.FirstName + " " + @visit.Student.LastName, "Details", "Students", new { id = @visit.Student.Id }, null)</td>
+                    }
+                    <td>@visit.StartTime.Date.ToShortDateString()</td>
+                    <td>@visit.StartTime.ToShortTimeString()</td>
+                    <td>@visit.EndTime.ToShortTimeString()</td>
+                    <td>@visit.EndTime.Subtract(visit.StartTime).TotalHours.ToString("N2")</td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <br/><br /><br />
+    <h3>This lab hasn't had any visitors.</h3>
+}

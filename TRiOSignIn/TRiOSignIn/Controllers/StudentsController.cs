@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -79,8 +80,37 @@ namespace TRiOSignIn.Controllers
 
             var viewModel = new StudentDetailViewModel();
 
+            TimeSpan totalDayHours = TimeSpan.Zero;
+            TimeSpan totalWeekHours = TimeSpan.Zero;
+            TimeSpan totalSemesterHours = TimeSpan.Zero;
+            TimeSpan visitTime = TimeSpan.Zero;
+
+            DateTime startOfWeek = DateTime.Today.AddDays((int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - (int)DateTime.Today.DayOfWeek);
+            DateTime endOfWeek = startOfWeek.AddDays(6);
+
+            foreach (var visit in visits)
+            {
+                visitTime = TimeSpan.Zero;
+                visitTime = visit.EndTime.Subtract(visit.StartTime);
+
+                if (visit.StartTime.Day.Equals(DateTime.Today) && visit.isActive == false)
+                {
+                    totalDayHours += visitTime;
+                }
+
+                if (visit.StartTime > startOfWeek && visit.StartTime < endOfWeek)
+                {
+                    totalWeekHours += visitTime;
+                }
+
+                totalSemesterHours += visitTime;
+            }
+
             viewModel.Student = student;
             viewModel.Visits = visits;
+            viewModel.Day = totalDayHours.ToString(@"hh\:mm"); ;
+            viewModel.Week = totalWeekHours.ToString(@"hh\:mm");
+            viewModel.Semester = totalSemesterHours.ToString(@"hh\:mm");
 
             return View(viewModel);
         }

@@ -1,0 +1,89 @@
+﻿@model TRiOSignIn.ViewModels.StudentDetailViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Student.MiddleInitial == null)
+{
+    <h2>@Model.Student.FirstName @Model.Student.LastName</h2>
+}
+else
+{
+    <h2>@Model.Student.FirstName @Model.Student.MiddleInitial @Model.Student.LastName</h2>
+}
+
+<br/>
+
+<div class="list-group">
+    @if (Model.Student.Email != null)
+    {
+        <div class="list-group-item"><b>Email: </b>@Model.Student.Email</div>
+    }
+    
+    @if (Model.Student.Phone != null)
+    {
+        <div class="list-group-item"><b>Phone: </b>@Model.Student.Phone</div>
+    }
+    
+    <div class="list-group-item"><b>Student ID: </b>@Model.Student.StudentId</div>
+    <div class="list-group-item"><b>Card Number: </b>@Model.Student.CardNumber</div>
+</div>
+
+<a href="@Url.Action("Edit", "Students", new { id = Model.Student.Id })" class="btn btn-warning" id="detailBtn">EDIT</a>
+<a href="@Url.Action("Index", "Students")" class="btn btn-danger" id="detailBtn">CANCEL</a>
+
+<br />
+<br/>
+
+@if (Model.Visits.Count > 0)
+{
+    var className = "";
+    
+    <h3>Visits</h3>
+
+    <br/>
+    <!--Add DatePickers Here-->
+
+    <br/><br/>
+
+    <div class="pre-scrollable">
+    <table class="table table-striped">
+        <tr>
+            <td>Id</td>
+            <td>Date</td>
+            <td>Start Time</td>
+            <td>End Time</td>
+            <td>Total Time</td>
+        </tr>
+        @foreach (var visit in @Model.Visits)
+        {
+            if (visit.isActive == true)
+            {
+                className = "success";
+            }
+            else if (visit.ForceClosed == true)
+            {
+                className = "danger";
+            }
+            else
+            {
+                className = "";
+            }
+
+            <tr class="@className">
+                <td>@visit.Id</td>
+                <td>@visit.StartTime.Date.ToShortDateString()</td>
+                <td>@visit.StartTime.ToShortTimeString()</td>
+                <td>@visit.EndTime.ToShortTimeString()</td>
+                <td>@visit.EndTime.Subtract(visit.StartTime).TotalHours.ToString("N2")</td>
+            </tr>
+        }
+    </table>
+        </div>
+}
+else
+{
+    <br/><br /><br />
+    <h3>This student hasn't visited the lab.</h3>
+}

@@ -1,0 +1,39 @@
+﻿@model TRiOSignIn.Models.Student
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>TRiO SSS</h1>
+    <p class="lead">Enter your student ID, or swipe your card to sign in. Remember to sign out on your way out.</p>
+    <br/>
+    <p class="center">
+        @using (Html.BeginForm("Create", "Visits"))
+        {
+            <div class="form-group">
+                <center>
+                    @Html.TextBoxFor(c => c.StudentId, new { @class = "form-control centeredTB" })
+                </center>
+            </div>
+            <br/>
+            <center>
+                <button type="submit" class="btn btn-warning" id="signInBtn">SUBMIT</button>
+            </center>
+        }
+    </p>
+    <br />
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <h2>Announcements</h2>
+        <p>
+            Don't forget to complete the Noel-Levits assessment
+        </p>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-5">
+        <h2>Events</h2>
+        <p>Party at Ms. Jackson's house this Saturday at 7:00am</p>
+    </div>
+</div>

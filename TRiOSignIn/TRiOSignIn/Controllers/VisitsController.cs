@@ -10,7 +10,6 @@ using TRiOSignIn.ViewModels;
 
 namespace TRiOSignIn.Controllers
 {
-    [Authorize]
     public class VisitsController : Controller
     {
         private ApplicationDbContext _context;
@@ -25,6 +24,7 @@ namespace TRiOSignIn.Controllers
             _context.Dispose();
         }
 
+        [Authorize]
         public ActionResult Index()
         {
             var visits = _context.Visits.Include(c=> c.Student).Include(m=> m.Lab).ToList();

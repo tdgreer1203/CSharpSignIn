@@ -1,0 +1,28 @@
+﻿@using System.Web.Configuration
+@model IEnumerable<TRiOSignIn.Models.Department>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Departments</h2>
+
+<br />
+
+<div class="pre-scrollable" id="pageTable">
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        @foreach (var department in Model)
+        {
+            <tr>
+                <td>@department.Id</td>
+                <td>@Html.ActionLink(department.Name, "Details", "Departments", new { id = department.Id }, null)</td>
+            </tr>
+        }
+    </table>
+</div>
+<br/>
+    <a href="@Url.Action("New", "Departments")" class="btn btn-info" id="detailBtn">ADD</a>

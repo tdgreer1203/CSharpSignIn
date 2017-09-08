@@ -1,0 +1,58 @@
+﻿@model TRiOSignIn.ViewModels.DepartmentDetailsViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Department.Name</h2>
+
+<br/>
+<ul>
+    <li><h4><b>ID: </b>@Model.Department.Id</h4></li>
+    <li><h4><b>Name: </b>@Model.Department.Name</h4></li>
+</ul>
+
+<br />
+
+<a href="@Url.Action("Edit", "Departments", new { id = Model.Department.Id })" class="btn btn-warning" id="detailBtn">EDIT</a>
+<a href="@Url.Action("Index", "Departments")" class="btn btn-danger" id="detailBtn">CANCEL</a>
+
+<br />
+<br />
+
+@if (Model.Labs.Count() > 0)
+{
+    var className = "";
+
+    <h3>Labs</h3>
+
+    <div class="pre-scrollable">
+        <div class="pre-scrollable" id="pageTable">
+            <table class="table table-striped">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Room</th>
+                    <th>Building</th>
+                    <th>Department</th>
+                </tr>
+                @foreach (var lab in Model.Labs)
+                {
+                    <tr>
+                        <td>@lab.Id</td>
+                        <td>@Html.ActionLink(lab.Name, "Details", "Labs", new { id = lab.Id }, null)</td>
+                        <td>@lab.Room</td>
+                        <td>@lab.Building.Name</td>
+                        <td>@lab.Department.Name</td> 
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <br /><br /><br />
+    <h3>There are no labs listed under this department.</h3>
+}
+

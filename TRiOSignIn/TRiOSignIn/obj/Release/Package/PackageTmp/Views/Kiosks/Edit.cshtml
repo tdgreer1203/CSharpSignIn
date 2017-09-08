@@ -1,0 +1,29 @@
+﻿@model TRiOSignIn.ViewModels.KioskEditViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Kiosk</h2>
+
+<br/>
+
+@using (Html.BeginForm("Save", "Kiosks"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Kiosk.Name)
+        @Html.TextBoxFor(m => m.Kiosk.Name, new { @class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Kiosk.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Kiosk.Lab)
+        @Html.DropDownListFor(m => m.Kiosk.LabId, new SelectList(Model.Labs, "Id", "Name"), "Select Lab", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Kiosk.Lab)
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-info" id="detailBtn">SAVE</button>
+    <a href="@Url.Action("Index", "Kiosks")" class="btn btn-danger" id="detailBtn">CANCEL</a>
+}

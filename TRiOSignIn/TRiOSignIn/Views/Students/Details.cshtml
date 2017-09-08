@@ -15,19 +15,34 @@ else
 
 <br/>
 
-<div class="list-group">
-    @if (Model.Student.Email != null)
-    {
-        <div class="list-group-item"><b>Email: </b>@Model.Student.Email</div>
-    }
+<div class="row">
+    <div class="col-sm-6">
+        <div class="list-group">
+            @if (Model.Student.Email != null)
+            {
+                <div class="list-group-item"><b>Email: </b>@Model.Student.Email</div>
+            }
     
-    @if (Model.Student.Phone != null)
-    {
-        <div class="list-group-item"><b>Phone: </b>@Model.Student.Phone</div>
-    }
+            @if (Model.Student.Phone != null)
+            {
+                <div class="list-group-item"><b>Phone: </b>@Model.Student.Phone</div>
+            }
     
-    <div class="list-group-item"><b>Student ID: </b>@Model.Student.StudentId</div>
-    <div class="list-group-item"><b>Card Number: </b>@Model.Student.CardNumber</div>
+            <div class="list-group-item"><b>Student ID: </b>@Model.Student.StudentId</div>
+            
+            @if (Model.Student.CardNumber != null)
+            {
+                <div class="list-group-item"><b>Card Number: </b>@Model.Student.CardNumber</div>
+            }
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="list-group">
+            <div class="list-group-item"><b>Daily Total: </b>@Model.Day</div>
+            <div class="list-group-item"><b>Weekly Total: </b>@Model.Week</div>
+            <div class="list-group-item"><b>Semester Total: </b>@Model.Semester</div>
+        </div>
+    </div>
 </div>
 
 <a href="@Url.Action("Edit", "Students", new { id = Model.Student.Id })" class="btn btn-warning" id="detailBtn">EDIT</a>
@@ -43,19 +58,18 @@ else
     <h3>Visits</h3>
 
     <br/>
+    <!--Add DatePickers Here
 
-    <a href="@Url.Action("DetailsWeek", "Students", new { id = Model.Student.Id })" class="btn btn-info" id="detailBtn">WEEK</a>
-
-    <br/><br/>
+    <br/><br/>-->
 
     <div class="pre-scrollable">
     <table class="table table-striped">
         <tr>
-            <td>Id</td>
-            <td>Date</td>
-            <td>Start Time</td>
-            <td>End Time</td>
-            <td>Total Time</td>
+            <td><b>Id</b></td>
+            <td><b>Date</b></td>
+            <td><b>Start Time</b></td>
+            <td><b>End Time</b></td>
+            <td><b>Total Time</b></td>
         </tr>
         @foreach (var visit in @Model.Visits)
         {
@@ -77,7 +91,7 @@ else
                 <td>@visit.StartTime.Date.ToShortDateString()</td>
                 <td>@visit.StartTime.ToShortTimeString()</td>
                 <td>@visit.EndTime.ToShortTimeString()</td>
-                <td>@visit.EndTime.Subtract(visit.StartTime).TotalHours.ToString("N2")</td>
+                <td>@visit.EndTime.Subtract(visit.StartTime).ToString(@"hh\:mm")</td>
             </tr>
         }
     </table>
